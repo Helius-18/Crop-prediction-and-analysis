@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    html
+    {
+        /* background-image: url({{ crop_img }}); */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 100vh;
+        
+    }
+    body
+    {
+        background-color: rgba(255, 255, 255, 0);
+    }
+</style>
+<div class="row mt-2 mt-lg-5 p-2" style="background-color: rgba(255, 255, 255, 0.502);">
+    {% for crop in data %}
+        <div class="col mt-5 d-flex justify-content-center">
+            <div>
+                <div class="circle-wrap">
+                    <div class="circle">
+                        <div class="mask full">
+                            <div class="fill"></div>
+                        </div>
+                        <div class="mask half">
+                            <div class="fill"></div>
+                        </div>
+                        <div class="inside-circle">{{ crop }}</div>
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <a href="javascript:window.location.replace(crop_data['{{ crop }}'])" style="color: green;"><b>how to grow {{ crop }}?</b></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+        {% comment %} <div class="col mt-5 d-flex justify-content-center">
+            <div class="circle-wrap">
+                <div class="circle">
+                    <div class="mask full">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="mask half">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="inside-circle"> 75% </div>
+                </div>
+            </div>
+        </div>
+        <div class="col mt-5 d-flex justify-content-center">
+            <div class="circle-wrap">
+                <div class="circle">
+                    <div class="mask full">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="mask half">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="inside-circle"> 75% </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </div>
+{% endblock content %}

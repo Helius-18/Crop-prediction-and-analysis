@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body
+    {
+        height: 100vh;
+        color: white;
+        background-image: url("https://c4.wallpaperflare.com/wallpaper/657/237/296/grass-nature-depth-of-field-spikelets-wallpaper-preview.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    form
+    {
+        background-color: rgba(0, 0, 0, 0.413);
+    }
+</style>
+<div class="form-container">
+    <div class="container">
+        <!-- <div class="row d-lg-flex justify-content-end"> -->
+            <!-- <div class="row d-lg-flex justify-content-between"> -->
+            <!-- <div class="col-lg-4 border rounded mt-5"> -->
+                <form action="/result" class="p-3 border rounded mt-5" method="post">
+                    {% csrf_token %}
+                    {% comment %} <input type="date" name="bitch" id="bitch" value="2014-02-09"> {% endcomment %}
+                    <div class="row d-lg-flex justify-content-between">
+                        <div class="col-12 col-lg-4 ">
+                            <h2>Soil Info</h2>
+                            <hr>
+                            <div class="mb-3">
+                                <label for="nitrogen" class="form-label">Nitrogen content</label>
+                                <input type="number" class="form-control" name="N" id="nitrogen" value="{{ nitrogen }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="pottasium" class="form-label">Pottasium content</label>
+                                <input type="number" class="form-control" name="K" id="pottasium"
+                                    value="{{ pottasium }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phosphorus" class="form-label">Phosphorus content</label>
+                                <input type="number" class="form-control" name="P" id="phosphorus"
+                                    value="{{ phosphorus }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="ph" class="form-label">pH content</label>
+                                <input type="number" max="10" class="form-control" name="ph" id="ph" value="{{ ph }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-1 border-end"></div>
+                        <div class="col-12 col-lg-5">
+                            <h2>Weather Info</h2>
+                            <hr>
+                            <div class="mb-3">
+                                <label for="temperature" class="form-label">Temperature</label>
+                                <input type="number" class="form-control" id="temperature" name="temp"
+                                    value="{{ temperature }}">
+                                <div id="tempHelp" class="form-text" style="color: white;">in °C.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="humidity" class="form-label">Humidity</label>
+                                <input type="number" class="form-control" id="humidity" name="humidity"
+                                    value="{{ humidity }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="rainfall" class="form-label">RainFall</label>
+                                <input type="number" class="form-control" id="rainfall" name="rain"
+                                    value="{{ rainfall }}" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    <!-- <h2>Soil Info</h2>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="nitrogen" class="form-label">Nitrogen content</label>
+                        <input type="number" class="form-control" name="N" id="nitrogen" value="{{ nitrogen }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pottasium" class="form-label">Pottasium content</label>
+                        <input type="number" class="form-control" name="K" id="pottasium" value="{{ pottasium }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phosphorus" class="form-label">Phosphorus content</label>
+                        <input type="number" class="form-control" name="P" id="phosphorus" value="{{ phosphorus }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ph" class="form-label">pH content</label>
+                        <input type="number" max="10" class="form-control" name="ph" id="ph" value="{{ ph }}">
+                    </div>
+                    <h2>Weather Info</h2>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="temperature" class="form-label">Temperature</label>
+                        <input type="number" class="form-control" id="temperature" name="temp"
+                            value="{{ temperature }}">
+                        <div id="tempHelp" class="form-text" style="color: white;">in °C.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="humidity" class="form-label">Humidity</label>
+                        <input type="number" class="form-control" id="humidity" name="humidity" value="{{ humidity }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rainfall" class="form-label">RainFall</label>
+                        <input type="number" class="form-control" id="rainfall" name="rain" value="{{ rainfall }}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button> -->
+                </form>
+            <!-- </div> -->
+        <!-- </div> -->
+    </div>
+</div>
+<script>
+    // document.getElementsByTagName("body")[0].style.backgroundImage = 'url("https://c4.wallpaperflare.com/wallpaper/657/237/296/grass-nature-depth-of-field-spikelets-wallpaper-preview.jpg")';
+    // document.getElementsByTagName("body")[0].style.backgroundRepeat = "no-repeat";
+    // document.getElementsByTagName("body")[0].style.backgroundPosition = "center";
+    // document.getElementsByTagName("body")[0].style.backgroundSize = "cover";
+        // style="background-image: url(https://c4.wallpaperflare.com/wallpaper/657/237/296/grass-nature-depth-of-field-spikelets-wallpaper-preview.jpg); background-repeat: no-repeat; background-position: center; background-size: cover;"
+</script>
+{% endblock content %}

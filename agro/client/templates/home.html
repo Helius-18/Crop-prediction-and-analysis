@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="header" style="background-image: url({% static 'skins/__img___group_3.png' %})">
+        <div class="row-12 text-center">
+            <div class="how_it_works" style="font-family: cabin sketch; font-size: 60px">
+                How it Works
+            </div>
+        </div>
+        <div class="row-12">
+            <div class="video" style="
+            max-width: 560px;
+            height: 315px;
+            margin: auto;
+          "><video style="max-width: 560px; height: 315px;" src="{% static 'demo.mp4' %}" alt="video" controls></video></div>
+            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/0yW7w8F2TVA?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+        </div>
+        <div class="row-sm-12 mt-5 d-flex justify-content-between">
+            <div class="col col-lg-5 text-sm-end text-center">
+                <button class="btn btn-light mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Predict your crop
+                </button>
+            </div>
+            <div class="col col-lg-5 text-sm-start text-center">
+                <button class="btn btn-dark mb-4" data-bs-toggle="modal" data-bs-target="#exampleModa2">Know about crop</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" style="background-color: rgba(0, 83, 0, 0.146)">
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col text-center mb-5 offset-1 offset-lg-0">
+                    <img class="w-lg-60 w-sm-50" src={% static 'skins/__img___component_1.png' %} alt="">
+                </div>
+                <div class="col mt-5 text-center text-lg-start">
+                    <h1>More than 20 different types of crops</h1>
+                    <p>Large data-set with 22 different crops</p>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col offset-lg-1 mt-5 text-center text-lg-start">
+                    <h1>Know about crop</h1>
+                    <p>
+                        AGRO also provides information regarding the crop aand how to grow
+                        the crop.
+                    </p>
+                </div>
+                <div class="col text-center mb-5">
+                    <img class="w-lg-60" src={% static 'skins/__img___component_2.png' %} alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="ms-3 p-2 pt-4">
+            <h2 style="font-family: cain sketch; font-size: 20px">about us:</h2>
+            <a href="https://github.com/Helius-18/Crop-prediction-and-analysis"><i class="fa fa-github"
+                    style="font-size: 36px"></i></a>
+            <hr />
+        </div>
+    </div>
+
+{% endblock content %}

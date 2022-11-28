@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={% static 'home.css' %}>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin%20Sketch" />
+    <title>AGRO</title>
+</head>
+
+<body>
+    <div class="navbar navbar-dark">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <a href="/" style="text-decoration: none; color: white;">
+                    <img src={% static 'skins/bean_logo.png' %} alt="" srcset="">
+                    <span class="fs-3">AGRO</span>
+                </a>
+            </div>
+            <div>
+                <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Predict
+                    your crop</button>
+            </div>
+        </div>
+    </div>
+
+    {% block content %}
+
+    {% endblock content %}
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/form" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Provide Location:
+                        </h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="fs-6 border rounded p-2 text-success border-success">location helps us get the weather and soil data instead of manually entering.</p>
+                        <div class="container mt-3">
+                            <label for="district" class="form-label">District:</label>
+                            <select class="form-select" id="district" name="district" onchange="setMandal()">
+                                <option value="none" selected disabled hidden>Select an Option</option>
+                                {% for distrct in districts %}
+                                <option>{{distrct}}</option>
+                                {% endfor %}
+                            </select>
+                            <br />
+
+                            <label for="mandal" class="form-label">Mandal:</label>
+                            <select class="form-select" id="mandal" name="mandal">
+                                <option value="none" selected disabled hidden>Select an Option</option>
+                            </select>
+                        </div>
+                        <br />
+                        <div class="row offset-1 mb-1">
+                            <div class="col-5">
+                                <hr />
+                            </div>
+                            or
+                            <div class="col-5">
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="button" style="margin: auto" class="col-5 btn btn-outline-success"
+                                onclick="getLocation()">
+                                enable-location
+                            </button>
+                        </div>
+                    </div>
+                    <div style="background-color: rgba(41, 41, 41, 1); color: white" class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.replace('/form');">
+                            Enter manually
+                        </button>
+                        <button type="submit" class="btn btn-success" onclick="">Get data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="exampleModa2" tabindex="-1" aria-labelledby="exampleModalLabe2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabe2">
+                            Select the Crop you want to know about:
+                        </h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <select class="form-select" id="crop-selection" aria-label="Default select example">
+                            <option value="none" selected disabled hidden>Select a Crop</option>
+                            
+                        </select>
+                    </div>
+                    <div style="background-color: rgba(41, 41, 41, 1); color: white" class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModa2">
+                            exit
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="window.location.replace(crop_data[document.getElementById('crop-selection').value])">Learn</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    crop_data={
+        "rice":"https://www.gardeningknowhow.com/edible/grains/rice/how-to-grow-rice.htm",
+        "maize":"https://agrolearner.com/how-to-grow-maize/",
+        "chickpea":"https://www.gardeningknowhow.com/edible/vegetables/beans/how-to-grow-chickpeas.htm",
+        "kidneybeans":"https://www.gardeningknowhow.com/edible/vegetables/beans/how-to-grow-kidney-beans.htm",
+        "pigeonpeas":"https://gardenerspath.com/plants/vegetables/grow-pigeon-peas/",
+        "mothbeans":"https://www.roysfarm.com/growing-moth-bean/",
+        "mungbean":"https://gardeningtips.in/growing-mung-beans-planting-care-harvesting",
+        "blackgram":"https://www.roysfarm.com/growing-black-gram/",
+        "lentil":"https://www.roysfarm.com/growing-lentil/",
+        "pomegranate":"https://gardeningtips.in/pomegranate-growing-tips-ideas-techniques-secrets",
+        "banana":"https://www.thespruce.com/banana-tree-growing-profile-3269353",
+        "grapes":"https://gardensnursery.com/grapes-growing-guide/",
+        "mango":"https://www.thespruce.com/grow-mango-seeds-1902625",
+        "watermelon":"https://www.thespruce.com/how-to-grow-watermelons-1403491",
+        "muskmelon":"https://indiagardening.com/how-to-grow/how-to-grow-muskmelon-growing-cantaloupes/",
+        "apple":"https://morningchores.com/growing-apples/",
+        "orange":"https://morningchores.com/growing-orange-tree/",
+        "papaya":"https://www.agrifarming.in/papaya-farming",
+        "coconut":"https://morningchores.com/growing-coconuts/",
+        "cotton":"https://morningchores.com/growing-cotton/",
+        "jute":"https://www.agrifarming.in/jute-cultivation",
+        "coffee":"https://www.agrifarming.in/coffee-growing-information-beginners",
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        alert(
+            "Latitude: " +
+            position.coords.latitude +
+            "\n" +
+            "Longitude: " +
+            position.coords.longitude
+        );
+    }
+
+    ['apple','banana','blackgram','chickpea','coconut','coffee','cotton','grapes','jute','kidneybeans','lentil','maize','mango','mothbeans','mungbean','muskmelon','orange','papaya','pigeonpeas','pomegranate','rice','watermelon'].forEach(element => {
+        document.getElementById("crop-selection").innerHTML+="<option>"+element+"</option>";
+    });
+
+
+
+    var data={'Adilabad': ['Narnoor', 'Bazarhathnoor', 'Gudihathnur', 'Mavala', 'Tamsi', 'Boath', 'Inderavelly', 'Ichoda', 'Neradigonda', 'Sirikonda', 'Adilabad Rural', 'Bela', 'Bheempoor', 'Adilabad Urban', 'Gadiguda', 'Jainad', 'Talamadugu', 'Utnur'], 'Bhadradri Kothagudem': ['Annapureddipalle', 'Julurpad', 'Chunchupally', 'Aswapuram', 'Manuguru', 'Laxmidevipalli', 'Pinapaka', 'Dummugudem', 'Kothagudem', 'Mulakalapalle', 'Sujathanagar', 'Aswaraopeta', 'Yellandu', 'Tekulapalle', 'Burgampadu', 'Chandrugonda', 'Allapalli', 'Cherla', 'Bhadrachalam', 'Gundala', 'Dammapeta', 'Palawancha', 'Karakagudem'], 'Hanumakkonda': ['Atmakur', 'Elkathurthi', 'Hasanparthy', 'Nadikuda', 'Khazipet', 'Velair', 'Kamalapur', 'Inole', 'Parkal', 'Shayampet', 'Bheemadevarapalle', 'Hanumakkonda', 'Damera', 'Dharmasagar'], 'Hyderabad': ['Secunderabad', 'Khairatabad', 'Ameerpet', 'Asifnagar', 'Golkonda', 'Bandlaguda', 'Tirumalgiri', 'Shaikpet', 'Nampally', 'Maredpally', 'Musheerabad', 'Charminar', 'Bahadurpura', 'Himayatnagar', 'Saidabad', 'Amberpet'], 'Jagtial': ['Kathlapur', 'Malial', 'Beerpur', 'Medipalle', 'Dharmapuri', 'Jagtial', 'Mallapur', 'Buggaram', 'Metpalle', 'Gollapalle', 'Pegadapalle', 'Sarangapur', 'Velgatoor', 'Koratla', 'Ibrahimpatnam', 'Jagityal_Rural', 'Raikal', 'Kodimial'], 'Jangaon': ['Narmetta', 'Ganpur_Stn', 'Kodakandla', 'Palakurthi', 'Lingalaghanpur', 'Zaffergadh', 'Raghunathpalle', 'Tharigoppula', 'Jangaon', 'Bachannapeta', 'Chilpur', 'Devaruppala'], 'Jayashankar': ['Mutharam_Mahadevpur', 'Mahadevpur', 'Chityal', 'Regonda', 'Mogullapalle', 'Ghanapur_Mulug', 'Palmela', 'Tekumatla', 'Bhupalpalle', 'Kataram', 'Malharrao'], 'Jogulamba Gadwal': ['Undavelli', 'Rajoli', 'Waddepalle', 'Gadwal', 'Itikyal', 'Kaloor_Timmanadoddi', 'Manopad', 'Aiza', 'Maldakal', 'Dharur', 'Ghattu', 'Alampur'], 'Kamareddy': ['Tadwai', 'Ramareddy', 'Jukkal', 'Machareddy', 'Domakonda', 'Naga_Reddipet', 'Yellareddy', 'Gandhari', 'Pitlam', 'Birkoor', 'Bichkunda', 'Pedda Kodapgal', 'Bibipet', 'Madnur', 'Bhiknur', 'Rajampet', 'Lingampet', 'Kamareddy', 'Nasurullabad', 'Sadasivanagar', 'Banswada', 'Nizamsagar'], 'Karimnagar': ['Kothapalle', 'Jammikunta', 'Choppadandi', 'Manakondur', 'Veenavanka', 'Shankarapatnam', 'Thimmapur', 'Karimnagar', 'Huzurabad', 'Ramadugu', 'Chigurumamidi', 'Gangadhara', 'V_Saidapur', 'Ellandakunta', 'Gannervaram', 'Karimnagar_Rural'], 'Khammam': ['Khammam_Urban', 'Thirumalayapalem', 'Penuballi', 'Sathupalle', 'Yerrupalem', 'Madhira', 'Chinthakani', 'Raghunadhapalem', 'Konijerla', 'Khammam_Rural', 'Enkuru', 'Kusumanchi', 'Thallada', 'Mudigonda', 'Vemsoor', 'Singareni', 'Wyra', 'Kalluru', 'Kamepalle', 'Bonakal', 'Nelakondapalle'], 'Kumuram Bheem': ['Bejjur', 'Sirpur_U', 'Asifabad', 'Sirpur_T', 'Kagaznagar', 'Rebbana', 'Wankdi', 'Tiryani', 'Dahegaon', 'Kerameri', 'Lingapur', 'Jainoor', 'Chintalamanepally', 'Penchikalpet', 'Kouthala'], 'Mahabubabad': ['Thorrur', 'Kuravi', 'Narsimhulapet', 'Danthalapalle', 'Chinnagudur', 'Ganagavaram', 'Maripeda', 'Kesamudram', 'Nellikudur', 'Garla', 'Bayyaram', 'Peddavangara', 'Kothaguda', 'Dornakal', 'Gudur', 'Mahabubabad'], 'Mahabubnagar': ['Koilkonda', 'Nawabpet', 'Bhoothpur', 'Mahabubnagar_Rural', 'Mahabubnagar_Urban', 'Hanwada', 'Jadcherla', '27', 'Midjil', 'Mohammamdabad', 'Rajapur', 'Balanagar', 'Devarkadara', 'Addakal', 'Gandeed', 'Musapet', 'Chinna_Chintha_Kunta'], 'Mancherial': ['Luxettipet', 'Chennur', 'Dandepalle', 'Hajipur', 'Jaipur', 'Jannaram', 'Bellampalle', 'Mancherial', 'Naspur', 'Kasipet', 'Vemanpalle', 'Bhimaram', 'Kotapalle', 'Nennal', 'Bheemini', 'Kannepalli', 'Mandamarri', 'Tandur'], 'Medak': ['Papannapet', 'Narsingi', '21', 'Nizampet', 'Tupran', 'Yeldurthy', 'Ramayampet', 'Tekmal', 'Chegunta', 'Shankarampet_A', 'Shankarampet_R', 'Chilipched', 'Alladurg', 'Masaipet', 'Kulcharam', 'Regode', 'Medak', 'Narsapur', 'Havelighanpur', 'Kowdipalle', 'Shivampet', 'Manoharabad'], 'Medchal-Malkajgiri': ['Shamirpet', 'Bachpalle', 'Quthbullapur', 'Dundigal_Gandimaisamma', 'Muduchinthalapally', 'Keesara', 'Medipally', 'Kapra', 'Malkajgiri', 'Balanagar', 'Medchel', 'Alwal', 'Uppal', 'Ghatkesar', 'Kukatpally'], 'Mulugu': ['Mulug', 'Wazeed', 'Venkatapuram', 'Govindaraopet', 'Kannaigudem', 'Tadvai', 'Venkatapur', 'Eturunagaram', 'Mangapet'], 'Nagarkurnool': ['Uppunuthala', 'Kollapur', 'Vangoor', 'Tadoor', 'Bijinapalle', 'Amrabad', 'Urkonda', 'Padra', 'Lingal', 'Veldanda', 'Charakonda', 'Pentlavelli', 'Thimmajipeta', 'Kalwakurthy', 'Achampet', 'Peddakothapalle', 'Nagar_Kurnool', 'Balmoor', 'Telkapalle', 'Kodair'], 'Nalgonda': ['Anumula_Haliya', 'Miryalaguda', 'Thipparthi', 'Narketpalle', 'Marriguda', 'Chandampet', 'Peddavura', 'Kethepalle', 'Kangal', 'Tirumalagiri_Sagar', 'Neredugommu', 'Munugode', 'Madugulapally', 'Adavi Devula Palli', 'Chandur', 'Kattangoor', 'Chinthapalle', 'Gurrampode', 'Kondamallapally', 'Gundlapalle', 'Nampalle', 'Vemulapalle', 'Nidamanur', 'Nalgonda', 'Pedda_Adiserlapalle', 'Damaracherla', 'Saligouraram', 'Thripuraram', 'Chityala', 'Nakrekal', 'Devarakonda'], 'Narayanpet': ['Utkoor', 'Maganoor', 'Kosgi', 'Maddur', 'Dhanwada', 'Makthal', 'Damaragidda', 'Marikal', 'Narva', 'Narayanpet', 'Krishna'], 'Nirmal': ['Dastuarabad', 'Kubeer', 'Laxmanchanda', 'Narsapur_G', 'Kuntala', 'Kaddampeddur', 'Mamda', 'Mudhole', 'Nirmal_Rural', 'Tanur', 'Basar', 'Dilawarpur', 'Nirmal', 'Lokeswaram', 'Pembi', 'Bhainsa', 'Sarangapur', 'Khanpur', 'Soan'], 'Nizamabad': ['Bodhan', 'Sirkonda', 'Mupkal', 'Dichpalle', 'Bheemgal', 'Nizamabad_North', 'Mosra', 'Varni', 'Armur', 'Chandur', 'Kammarpalle', 'Yergatla', 'Yeda_Palle', 'Kotgiri', 'Indalwai', 'Dharpalle', 'Mortad', 'Nizamabad_South', 'Navipet', 'Mugpal', 'Vailpur', 'Mendora', 'Makloor', 'Balkonda', 'Nandipet', 'Ranjal', 'Jakranpalle', 'Nizamabad_Rural', 'Rudrur'], 'Peddapalli': ['Palakurthy', 'Peddapalle', 'Sultanabad', 'Ramagundam', 'Elgaid', 'Ramagiri', 'Odela', 'Dharmaram', 'Antargoan', 'Julapalle', 'Mutharam_Manthani', 'Srirampur', 'Manthani', 'Kamanpur'], 'Rajanna Sircilla': ['Rudrangi', 'Boinpalle', 'Ellanthakunta', 'Konaraopeta', 'Thangallapalle', 'Chandurthi', 'Gambhiraopeta', 'Yellareddypeta', 'Vemulawada', 'Veernapalle', 'Vemulawada_Rural', 'Mustabad', 'Sirsilla'], 'Rangareddy': ['Keshampeta', 'Shabad', 'Nandigam', 'Chevella', 'Chowdergudem', 'Farooqnagar', 'Balapur', 'Saroornagar', 'Hayathnagar', 'Serilingampally', 'Shamshabad', 'Ibrahimpatnam', 'Talakondapalle', 'Moinabad', 'Gandipet', 'Maheshwaram', 'Amangal', 'Kadthal', 'Abdullapurmet', 'Madgul', 'Kandukur', 'Manchal', 'Shankarpalle', 'Yacharam', 'Rajendranagar', 'Kothur', 'Kondurg'], 'Sangareddy': ['Kohir', 'Patancheruvu', 'Zahirabad', 'Hathanoora', 'Jharasangam', 'Sadasivpet', 'Munipalli', 'Raikode', 'Narayankhed', 'Sirgapoor', 'Kondapur', 'Ameenapur', 'Nagalgidda', 'Manoor', 'Gummadidala', 'Kandi', 'Naykal', '27', 'Jinnaram', 'Mogdampalle', 'Watpalle', 'Andhole', 'Pulkal', 'Ramachandrapuram', 'Sangareddy', 'Kalher', 'Chowtakur', 'Kangti'], 'Siddipet': ['Dubbak', 'Cheriyal', 'Markook', 'Chinnakodur', 'Gajwel', 'Anthakkapeta', 'Komaravelly', 'Koheda', 'Dhoolmitta', 'Mirdoddi', 'Husnabad', 'Nanganur', 'Jagadevpur', 'Rayapole', 'Siddipet_Rural', 'Kondapak', 'Siddipet_Urban', 'Wargal', 'Bejjanki', '24', 'Maddur', 'Narayanraopet', 'Mulug', 'Thoguta', 'Doultabad'], 'Suryapet': ['Thirumalagiri', 'Chivvemla', 'Mothey', 'Nadigudem', 'Kodad', 'Maddirala', 'Suryapet', 'Huzur Nagar', 'Garidepalle', 'Jajireddigudem', 'Mattampalle', 'Atmakur_S', 'Chilkur', 'Nagaram', 'Noothankal', 'Ananthagiri', 'Thungathurthi', 'Palakeedu', 'Penpahad', 'Chinthala Palem', 'Mellachervu', 'Neredcherla', 'Munagala'], 'Vikarabad': ['Yelal', '19', 'Bantwaram', 'Dharur', 'Marpalle', 'Vikarabad', 'Mominpet', 'Peddemul', 'Kotepally', 'Tandur', 'Basheerabad', 'Chowdapur', 'Pudur', 'Nawabpet', 'Bomraspeta', 'Kodangal', 'Pargi', 'Doulatabad', 'Kulkacharla', 'Doma'], 'Wanaparthy': ['Atmakur', 'Gopalpeta', 'Revelly', 'Kothakota', 'Amarchinta', 'Madanapur', 'Wanaparthy', 'Srirangapur', 'Chinnambavi', 'Veepangandla', 'Ghanpur', 'Pangal', 'Pebbair', 'Peddamandadi'], 'Warangal': ['Nekkonda', 'Shayampet', 'Bheemadevarapalle', 'Damera', 'Hasanparthy', 'Sangem', 'Geesugonda', 'Inole', 'Parkal', 'Dharmasagar', 'Nallabelly', 'Narsampet', 'Nadikuda', 'Hanamkonda', 'Khazipet', 'Khilla_Warangal', 'Velair', 'Kamalapur', 'Parvathagiri', 'Wardhannapet', 'Raiparthy', 'Atmakur', 'Elkathurthi', 'Duggondi', 'Khanapur', 'Warangal', 'Chennaraopeta'], 'Yadadri Bhuvanagiri': ['Atmakur_M', 'Mothkur', 'Pochampalle', 'Alair', 'Rajapet', 'Addagudur', 'Narayanapur', 'Bibinagar', 'Valigonda', 'Bhongiri', 'Yadagirigutta', 'Bommalaramaram', 'Turkapalle_M', 'Gundala', 'Choutuppal', 'Mootakondur', 'Ramannapeta']}
+
+    function setMandal() {
+        document.getElementById('mandal').innerHTML="";
+        data[document.getElementById('district').value].forEach(element => {
+            document.getElementById('mandal').innerHTML+="<option>"+element+"</option>"
+        });
+    }
+</script>
+</html>
